@@ -4,7 +4,7 @@ use std::process::Command;
 fn test_captura_inminente_empate_ok() {
     let output = Command::new("cargo")
         .arg("run")
-        .arg("tests/test_cases//caso-de-prueba-empate.txt")
+        .arg("tests/test_cases/caso-de-prueba-empate.txt")
         .output()
         .expect("failed to execute process");
 
@@ -16,7 +16,7 @@ fn test_captura_inminente_empate_ok() {
 fn test_captura_inminente_ganan_blancas_ok() {
     let output = Command::new("cargo")
         .arg("run")
-        .arg("tests/test_cases//caso_gana_blanca.txt")
+        .arg("tests/test_cases/caso_gana_blanca.txt")
         .output()
         .expect("failed to execute process");
 

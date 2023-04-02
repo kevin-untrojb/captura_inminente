@@ -1,10 +1,13 @@
-use crate::posicion::Position;
+use crate::position::Position;
 
+/// Representa una pieza de ajedrez, la cual tiene una posición en el tablero, un tipo y un color.
 pub struct Piece{
     position: Position,
     piece_type: PieceType,
     color: PieceColor
 }
+
+/// Representa el color de una pieza de ajedrez.
 #[derive(Copy, Clone)]
 pub enum PieceColor {
     White,
@@ -16,6 +19,7 @@ impl PartialEq for PieceColor {
     }
 }
 
+/// Representa el tipo de una pieza de ajedrez.
 enum PieceType {
     Rey,
     Dama,
@@ -26,6 +30,17 @@ enum PieceType {
 }
 
 impl Piece{
+    /// Crea una nueva pieza de ajedrez con el tipo de pieza especificado, en la posición especificada.
+    ///
+    /// # Arguments
+    ///
+    /// * `piece_type` - El tipo de pieza de ajedrez, representado como un carácter.
+    /// * `x` - La posición horizontal de la pieza en el tablero.
+    /// * `y` - La posición vertical de la pieza en el tablero.
+    ///
+    /// # Returns
+    ///
+    /// Si se pudo crear la pieza, se devuelve Ok con la nueva pieza. Si se encontró un error, se devuelve Err con una descripción del error.
     pub fn new(piece_type:char, x: usize, y: usize) -> Result<Piece,String> {
         let piece_color = if piece_type.is_uppercase()  {
             PieceColor::Black
@@ -49,10 +64,22 @@ impl Piece{
             color:piece_color,
         })
     }
+
+    /// Devuelve el color de la pieza.
     pub fn get_color(&self) ->PieceColor{
         self.color
     }
 
+
+    /// Indica si esta pieza puede matar a otra pieza especificada como opponent.
+    ///
+    /// # Arguments
+    ///
+    /// * `opponent` - La pieza que se quiere comprobar si se puede matar.
+    ///
+    /// # Returns
+    ///
+    /// true si esta pieza puede matar a la pieza especificada, false si no puede.
     pub fn can_kill(&self, opponent:&Self) -> bool{
         let (dx,dy) = self.position.get_dx_dy(opponent.position);
         match self.piece_type {

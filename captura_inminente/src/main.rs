@@ -6,7 +6,7 @@ use std::io::BufReader;
 use std::vec::Vec;
 use chess::Piece;
 use chess_error::ChessError;
-mod posicion;
+mod position;
 mod chess;
 mod chess_error;
 
