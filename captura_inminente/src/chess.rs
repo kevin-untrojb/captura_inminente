@@ -12,11 +12,7 @@ pub enum PieceColor {
 }
 impl PartialEq for PieceColor {
     fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (PieceColor::White, PieceColor::White) => true,
-            (PieceColor::Black, PieceColor::Black) => true,
-            _ => false,
-        }
+        matches!((self, other), (PieceColor::White, PieceColor::White) | (PieceColor::Black, PieceColor::Black))
     }
 }
 
@@ -58,51 +54,44 @@ impl Piece{
     }
 
     pub fn can_kill(&self, opponent:&Self) -> bool{
-        let mut can_kill = false;
         let (dx,dy) = self.position.get_dx_dy(opponent.position);
-
         match self.piece_type {
             PieceType::Rey => {
                 if dx <= 1 && dy <= 1 {
-                    can_kill = true;
+                    return true;
                 }
             },
             PieceType::Dama => {
                 if dx == dy || self.position.x == opponent.position.x || self.position.y == opponent.position.y {
-                    can_kill = true;
+                    return true;
                 }
             },
             PieceType::Torre => {
                 if self.position.x == opponent.position.x || self.position.y == opponent.position.y {
-                    can_kill = true;
+                    return true;
                 }
             },
             PieceType::Alfil => {
                 if dx == dy {
-                    can_kill = true;
+                    return true;
                 }
             },
             PieceType::Caballo => {
                 if (dx == 1 && dy == 2) || (dx == 2 && dy == 1) {
-                    can_kill = true;
+                    return true;
                 }
             },
             PieceType::Peon => {
                 if self.color ==PieceColor::Black {
                     if dx == 1 && opponent.position.y == self.position.y - 1 {
-                        can_kill = true;
+                        return true;
                     }
-                } else {
-                    if dx == 1 && opponent.position.y == self.position.y + 1 {
-                        can_kill = true;
-                    }
+                } else if dx == 1 && opponent.position.y == self.position.y + 1 {
+                    return true;
                 }
             },
         }
-        can_kill
-    }
-    pub fn are_same_color(&self, opponent:Self) -> bool{
-        self.color == opponent.color
+        false
     }
 }
 
@@ -200,4 +189,3 @@ mod tests {
         assert_eq!(piece1.can_kill(&piece2), true);
     }
 }
-

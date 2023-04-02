@@ -1,0 +1,1 @@
+/Users/kuntrojb/Documents/fiuba/taller-1/captura_inminente/captura_inminente/target/debug/captura_inminente: /Users/kuntrojb/Documents/fiuba/taller-1/captura_inminente/captura_inminente/src/chess.rs /Users/kuntrojb/Documents/fiuba/taller-1/captura_inminente/captura_inminente/src/main.rs /Users/kuntrojb/Documents/fiuba/taller-1/captura_inminente/captura_inminente/src/posicion.rs
