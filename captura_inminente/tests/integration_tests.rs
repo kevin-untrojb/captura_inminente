@@ -4,6 +4,7 @@ use std::process::Command;
 fn test_captura_inminente_empate_ok() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso-de-prueba-empate.txt")
         .output()
         .expect("failed to execute process");
@@ -16,6 +17,7 @@ fn test_captura_inminente_empate_ok() {
 fn test_captura_inminente_ganan_blancas_ok() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso_gana_blanca.txt")
         .output()
         .expect("failed to execute process");
@@ -28,6 +30,7 @@ fn test_captura_inminente_ganan_blancas_ok() {
 fn test_captura_inminente_ganan_negras_ok() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso_gana_negra.txt")
         .output()
         .expect("failed to execute process");
@@ -40,6 +43,7 @@ fn test_captura_inminente_ganan_negras_ok() {
 fn test_captura_inminente_no_gana_ninguna_ok() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso-de-prueba-ninguna-gana.txt")
         .output()
         .expect("failed to execute process");
@@ -52,6 +56,7 @@ fn test_captura_inminente_no_gana_ninguna_ok() {
 fn test_capture_imminent_tablero_9x9_debe_retornar_error() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso_tablero_9x9.txt")
         .output()
         .expect("failed to execute process");
@@ -64,6 +69,7 @@ fn test_capture_imminent_tablero_9x9_debe_retornar_error() {
 fn test_captura_inminentedebe_mas_de_dos_piezas_retornar_error() {
     let output = Command::new("cargo")
         .arg("run")
+        .arg("--")
         .arg("tests/test_cases/caso_3_piezas.txt")
         .output()
         .expect("failed to execute process");
