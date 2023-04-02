@@ -6,9 +6,12 @@ use std::io::BufReader;
 use std::vec::Vec;
 use chess::Piece;
 use chess_error::ChessError;
+
 mod position;
 mod chess;
 mod chess_error;
+mod piece_color;
+mod piece_type;
 
 /// # Captura inminente
 ///
@@ -54,14 +57,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn print_result_of_the_battle(pieza1:&Piece, pieza2:&Piece){
     match (pieza1.can_kill(pieza2), pieza2.can_kill(pieza1)) {
         (true, false) => {
-            if pieza1.get_color() == chess::PieceColor::White{
+            if pieza1.get_color() == piece_color::PieceColor::White{
                 println!("B");
             }else {
                 println!("N");
             }
         } ,
         (false, true) => {
-            if pieza2.get_color() == chess::PieceColor::White{
+            if pieza2.get_color() == piece_color::PieceColor::White{
                 println!("B");
             }else {
                 println!("N");

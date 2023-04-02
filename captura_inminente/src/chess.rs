@@ -1,4 +1,6 @@
 use crate::position::Position;
+use crate::piece_color::PieceColor;
+use crate::piece_type::PieceType;
 
 /// Representa una pieza de ajedrez, la cual tiene una posición en el tablero, un tipo y un color.
 pub struct Piece{
@@ -7,34 +9,12 @@ pub struct Piece{
     color: PieceColor
 }
 
-/// Representa el color de una pieza de ajedrez.
-#[derive(Copy, Clone)]
-pub enum PieceColor {
-    White,
-    Black,
-}
-impl PartialEq for PieceColor {
-    fn eq(&self, other: &Self) -> bool {
-        matches!((self, other), (PieceColor::White, PieceColor::White) | (PieceColor::Black, PieceColor::Black))
-    }
-}
-
-/// Representa el tipo de una pieza de ajedrez.
-enum PieceType {
-    Rey,
-    Dama,
-    Torre,
-    Alfil,
-    Caballo,
-    Peon,
-}
-
 impl Piece{
     /// Crea una nueva pieza de ajedrez con el tipo de pieza especificado, en la posición especificada.
     ///
     /// # Arguments
     ///
-    /// * `piece_type` - El tipo de pieza de ajedrez, representado como un carácter.
+    /// * `piece_type.rs` - El tipo de pieza de ajedrez, representado como un carácter.
     /// * `x` - La posición horizontal de la pieza en el tablero.
     /// * `y` - La posición vertical de la pieza en el tablero.
     ///
