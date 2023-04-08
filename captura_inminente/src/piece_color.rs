@@ -6,6 +6,9 @@ pub enum PieceColor {
 }
 impl PartialEq for PieceColor {
     fn eq(&self, other: &Self) -> bool {
-        matches!((self, other), (PieceColor::White, PieceColor::White) | (PieceColor::Black, PieceColor::Black))
+        matches!(
+            (self, other),
+            (PieceColor::White, PieceColor::White) | (PieceColor::Black, PieceColor::Black)
+        )
     }
 }

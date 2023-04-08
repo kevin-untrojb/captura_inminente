@@ -1,15 +1,15 @@
-use crate::position::Position;
 use crate::piece_color::PieceColor;
 use crate::piece_type::PieceType;
+use crate::position::Position;
 
 /// Representa una pieza de ajedrez, la cual tiene una posición en el tablero, un tipo y un color.
-pub struct Piece{
+pub struct Piece {
     position: Position,
     piece_type: PieceType,
-    color: PieceColor
+    color: PieceColor,
 }
 
-impl Piece{
+impl Piece {
     /// Crea una nueva pieza de ajedrez con el tipo de pieza especificado, en la posición especificada.
     ///
     /// # Arguments
@@ -21,14 +21,14 @@ impl Piece{
     /// # Returns
     ///
     /// Si se pudo crear la pieza, se devuelve Ok con la nueva pieza. Si se encontró un error, se devuelve Err con una descripción del error.
-    pub fn new(piece_type:char, x: usize, y: usize) -> Result<Piece,String> {
-        let piece_color = if piece_type.is_uppercase()  {
+    pub fn new(piece_type: char, x: usize, y: usize) -> Result<Piece, String> {
+        let piece_color = if piece_type.is_uppercase() {
             PieceColor::Black
         } else {
             PieceColor::White
         };
 
-        let match_type = match piece_type.to_ascii_lowercase(){
+        let match_type = match piece_type.to_ascii_lowercase() {
             'r' => PieceType::Rey,
             'd' => PieceType::Dama,
             'a' => PieceType::Alfil,
@@ -38,18 +38,17 @@ impl Piece{
             _ => return Err("ERROR: pieza no valida".to_string()),
         };
 
-        Ok(Piece{
-            position: Position::new(x,y),
+        Ok(Piece {
+            position: Position::new(x, y),
             piece_type: match_type,
-            color:piece_color,
+            color: piece_color,
         })
     }
 
     /// Devuelve el color de la pieza.
-    pub fn get_color(&self) ->PieceColor{
+    pub fn get_color(&self) -> PieceColor {
         self.color
     }
-
 
     /// Indica si esta pieza puede matar a otra pieza especificada como opponent.
     ///
@@ -60,43 +59,47 @@ impl Piece{
     /// # Returns
     ///
     /// true si esta pieza puede matar a la pieza especificada, false si no puede.
-    pub fn can_kill(&self, opponent:&Self) -> bool{
-        let (dx,dy) = self.position.get_dx_dy(opponent.position);
+    pub fn can_kill(&self, opponent: &Self) -> bool {
+        let (dx, dy) = self.position.get_dx_dy(opponent.position);
         match self.piece_type {
             PieceType::Rey => {
                 if dx <= 1 && dy <= 1 {
                     return true;
                 }
-            },
+            }
             PieceType::Dama => {
-                if dx == dy || self.position.x == opponent.position.x || self.position.y == opponent.position.y {
+                if dx == dy
+                    || self.position.x == opponent.position.x
+                    || self.position.y == opponent.position.y
+                {
                     return true;
                 }
-            },
+            }
             PieceType::Torre => {
-                if self.position.x == opponent.position.x || self.position.y == opponent.position.y {
+                if self.position.x == opponent.position.x || self.position.y == opponent.position.y
+                {
                     return true;
                 }
-            },
+            }
             PieceType::Alfil => {
                 if dx == dy {
                     return true;
                 }
-            },
+            }
             PieceType::Caballo => {
                 if (dx == 1 && dy == 2) || (dx == 2 && dy == 1) {
                     return true;
                 }
-            },
+            }
             PieceType::Peon => {
-                if self.color ==PieceColor::Black {
-                    if dx == 1 && opponent.position.y == self.position.y - 1 {
+                if self.color == PieceColor::Black {
+                    if dx == 1 && opponent.position.y == self.position.y + 1 {
                         return true;
                     }
-                } else if dx == 1 && opponent.position.y == self.position.y + 1 {
+                } else if dx == 1 && opponent.position.y == self.position.y - 1 {
                     return true;
                 }
-            },
+            }
         }
         false
     }
@@ -186,12 +189,12 @@ mod tests {
         let piece1 = Piece {
             position: Position { x: 3, y: 3 },
             piece_type: PieceType::Peon,
-            color: PieceColor::Black,
+            color: PieceColor::White,
         };
         let piece2 = Piece {
             position: Position { x: 4, y: 2 },
             piece_type: PieceType::Rey,
-            color: PieceColor::White,
+            color: PieceColor::Black,
         };
         assert_eq!(piece1.can_kill(&piece2), true);
     }

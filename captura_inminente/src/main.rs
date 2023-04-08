@@ -1,17 +1,17 @@
 use std::env;
 use std::fs::File;
-use std::io::{BufRead};
+use std::io::BufRead;
 use std::io::BufReader;
 
-use std::vec::Vec;
 use chess::Piece;
 use chess_error::ChessError;
+use std::vec::Vec;
 
-mod position;
 mod chess;
 mod chess_error;
 mod piece_color;
 mod piece_type;
+mod position;
 
 /// # Captura inminente
 ///
@@ -31,18 +31,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Ok(pieces) => pieces,
         Err(err) => {
             return Err(err);
-        },
+        }
     };
 
     let (pieza1, pieza2) = match piezas.get(0..2) {
-        Some([a,b]) => (a, b),
+        Some([a, b]) => (a, b),
         _ => {
-            println!("Error: deben haber 2 piezas, la cantidad de piezas es: {}", piezas.len());
-            return Err(Box::new(ChessError::new(String::from("Error: deben haber 2 piezas"))));
-        },
+            println!(
+                "Error: deben haber 2 piezas, la cantidad de piezas es: {}",
+                piezas.len()
+            );
+            return Err(Box::new(ChessError::new(String::from(
+                "Error: deben haber 2 piezas",
+            ))));
+        }
     };
 
-    print_result_of_the_battle(pieza1,pieza2);
+    print_result_of_the_battle(pieza1, pieza2);
 
     Ok(())
 }
@@ -54,22 +59,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// * `pieza1` - La primera pieza a comparar.
 /// * `pieza2` - La segunda pieza a comparar.
 ///
-fn print_result_of_the_battle(pieza1:&Piece, pieza2:&Piece){
+fn print_result_of_the_battle(pieza1: &Piece, pieza2: &Piece) {
     match (pieza1.can_kill(pieza2), pieza2.can_kill(pieza1)) {
         (true, false) => {
-            if pieza1.get_color() == piece_color::PieceColor::White{
+            if pieza1.get_color() == piece_color::PieceColor::White {
                 println!("B");
-            }else {
+            } else {
                 println!("N");
             }
-        } ,
+        }
         (false, true) => {
-            if pieza2.get_color() == piece_color::PieceColor::White{
+            if pieza2.get_color() == piece_color::PieceColor::White {
                 println!("B");
-            }else {
+            } else {
                 println!("N");
             }
-        },
+        }
         (true, true) => println!("E"),
         (false, false) => println!("P"),
     }
@@ -82,7 +87,7 @@ fn print_result_of_the_battle(pieza1:&Piece, pieza2:&Piece){
 ///
 /// * `file_path` - La ruta del archivo que contiene las piezas.
 ///
-fn get_pieces_from_file(file_path:&String) -> Result<Vec<Piece>, Box<dyn std::error::Error>>{
+fn get_pieces_from_file(file_path: &String) -> Result<Vec<Piece>, Box<dyn std::error::Error>> {
     let file = File::open(file_path).expect("Error: No se pudo abrir el archivo");
     let reader = BufReader::new(file);
 
@@ -96,14 +101,16 @@ fn get_pieces_from_file(file_path:&String) -> Result<Vec<Piece>, Box<dyn std::er
         for c in line.chars() {
             if c == '_' {
                 x += 1;
-                continue
+                continue;
             }
-            if c != '_' && c != ' '{
+            if c != '_' && c != ' ' {
                 x += 1;
-                match Piece::new(c,x,y) {
-                    Ok(pieza) => {piezas.push(pieza);}
+                match Piece::new(c, x, y) {
+                    Ok(pieza) => {
+                        piezas.push(pieza);
+                    }
                     Err(error) => {
-                        println!("Error: no se pudo crear la pieza: {}",error);
+                        println!("Error: no se pudo crear la pieza: {}", error);
                         return Err(Box::new(ChessError::new(error)));
                     }
                 }
@@ -111,7 +118,9 @@ fn get_pieces_from_file(file_path:&String) -> Result<Vec<Piece>, Box<dyn std::er
         }
         if x > 9 {
             println!("Error: el tablero es mayor a 8x8");
-            return Err(Box::new(ChessError::new(String::from("Error: el tablero es mayor a 8x8"))));
+            return Err(Box::new(ChessError::new(String::from(
+                "Error: el tablero es mayor a 8x8",
+            ))));
         }
         y += 1;
         x = 1;
@@ -119,12 +128,19 @@ fn get_pieces_from_file(file_path:&String) -> Result<Vec<Piece>, Box<dyn std::er
 
     if y > 9 {
         println!("Error: el tablero es mayor a 8x8");
-        return Err(Box::new(ChessError::new(String::from("Error: el tablero es mayor a 8x8"))));
+        return Err(Box::new(ChessError::new(String::from(
+            "Error: el tablero es mayor a 8x8",
+        ))));
     }
 
     if piezas.len() != 2 {
-        println!("Error: deben haber 2 piezas, la cantidad de piezas es: {}",piezas.len());
-        return Err(Box::new(ChessError::new(String::from("Error: deben haber 2 piezas"))));
+        println!(
+            "Error: deben haber 2 piezas, la cantidad de piezas es: {}",
+            piezas.len()
+        );
+        return Err(Box::new(ChessError::new(String::from(
+            "Error: deben haber 2 piezas",
+        ))));
     }
 
     Ok(piezas)

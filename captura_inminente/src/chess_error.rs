@@ -13,7 +13,7 @@ impl ChessError {
     /// let error = ChessError::new(String::from("Movimiento no válido"));
     /// ```
     pub fn new(msg: String) -> ChessError {
-        ChessError{message:msg}
+        ChessError { message: msg }
     }
 }
 impl std::fmt::Display for ChessError {

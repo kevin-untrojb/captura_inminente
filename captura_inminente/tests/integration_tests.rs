@@ -62,7 +62,62 @@ fn test_capture_imminent_tablero_9x9_debe_retornar_error() {
         .expect("failed to execute process");
 
     assert_eq!(output.status.success(), false);
-    assert_eq!(String::from_utf8_lossy(&output.stdout), "Error: el tablero es mayor a 8x8\n");
+    assert_eq!(
+        String::from_utf8_lossy(&output.stdout),
+        "Error: el tablero es mayor a 8x8\n"
+    );
+}
+
+#[test]
+fn test_peon_blanco_captura_a_caballo_negro() {
+    let output = Command::new("cargo")
+        .arg("run")
+        .arg("--")
+        .arg("tests/test_cases/Peon_blanco_captura_a_caballo_negro.txt")
+        .output()
+        .expect("failed to execute process");
+
+    assert_eq!(output.status.success(), true);
+    assert_eq!(String::from_utf8_lossy(&output.stdout), "B\n");
+}
+
+#[test]
+fn test_peon_blanco_no_puede_capturar_hacia_abajo() {
+    let output = Command::new("cargo")
+        .arg("run")
+        .arg("--")
+        .arg("tests/test_cases/Peon_blanco_no_puede_capturar_hacia_abajo.txt")
+        .output()
+        .expect("failed to execute process");
+
+    assert_eq!(output.status.success(), true);
+    assert_eq!(String::from_utf8_lossy(&output.stdout), "P\n");
+}
+
+#[test]
+fn test_peon_negro_captura_a_torre_blanca() {
+    let output = Command::new("cargo")
+        .arg("run")
+        .arg("--")
+        .arg("tests/test_cases/Peon_negro_captura_a_torre_blanca.txt")
+        .output()
+        .expect("failed to execute process");
+
+    assert_eq!(output.status.success(), true);
+    assert_eq!(String::from_utf8_lossy(&output.stdout), "N\n");
+}
+
+#[test]
+fn test_peon_negro_no_puede_capturar_hacia_arriba() {
+    let output = Command::new("cargo")
+        .arg("run")
+        .arg("--")
+        .arg("tests/test_cases/Peon_negro_no_puede_capturar_hacia_arriba.txt")
+        .output()
+        .expect("failed to execute process");
+
+    assert_eq!(output.status.success(), true);
+    assert_eq!(String::from_utf8_lossy(&output.stdout), "P\n");
 }
 
 #[test]
@@ -75,5 +130,8 @@ fn test_captura_inminentedebe_mas_de_dos_piezas_retornar_error() {
         .expect("failed to execute process");
 
     assert_eq!(output.status.success(), false);
-    assert_eq!(String::from_utf8_lossy(&output.stdout), "Error: deben haber 2 piezas, la cantidad de piezas es: 3\n");
+    assert_eq!(
+        String::from_utf8_lossy(&output.stdout),
+        "Error: deben haber 2 piezas, la cantidad de piezas es: 3\n"
+    );
 }
